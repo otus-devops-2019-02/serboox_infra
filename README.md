@@ -10,6 +10,6 @@ ssh -A -J serboox@gcp-bastion serboox@10.132.0.3
 
 IP адреса виртуальных машин:
 ``` text
-bastion_IP = 35.198.167.169
-someinternalhost_IP = 10.156.0.3
+bastion_IP = 35.195.211.230
+someinternalhost_IP = 10.132.0.3
 ```
