@@ -32,3 +32,25 @@ IP адреса виртуальных машин:
 testapp_IP = 35.228.155.241
 testapp_port = 9292
 ```
+
+# HW7.Модели управления инфраструктурой.
+* Подготовлен шаблон ubuntu16.json для Packer.
+* На основании шаблона ubuntu16.json создан custom image.
+* Подготовлен immutable.json для Packer. Build образа можно запустить командой:
+``` bash
+packer build -var-file=variables.json immutable.json
+```
+* На основании шаблона immutable.json создан custom image.
+* Подготовлен script file create-reddit-vm.sh для создания инстанса на основании image-family=reddit-full.
+``` bash
+#!/bin/bash
+set -e
+
+# Create instance with
+gcloud compute instances create reddit-app-7 \
+--boot-disk-size=10GB \
+--image-family=reddit-full \
+--machine-type=g1-small \
+--tags puma-server \
+--restart-on-failure
+```
