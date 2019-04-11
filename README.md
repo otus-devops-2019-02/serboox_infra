@@ -74,13 +74,13 @@ gcloud compute instances create reddit-app-7 \
     terraform fmt ./..
 ```
 P.S. Terraform extension для Vscode итак все форматировал)
-15. Создал файл *terraform.tfvars.example*
-16. * Добавил в поле ssh-keys ключи для appuser1 и appuser2. Вывод консоли показывал change однако ~/.ssh/authorized_keys содержал лишь один ключ, а войти на инстанс используя логин appuser1 невозможно т.к. в системе есть только appuser
+15) Создал файл *terraform.tfvars.example*
+16) * Добавил в поле ssh-keys ключи для appuser1 и appuser2. Вывод консоли показывал change однако ~/.ssh/authorized_keys содержал лишь один ключ, а войти на инстанс используя логин appuser1 невозможно т.к. в системе есть только appuser
 ``` bash
     appuser@reddit-app:~/.ssh$ users
     appuser
 ```
-17. Добавил в metadata публичный ключ appuser_web, команда terraform apply показала:
+17) Добавил в metadata публичный ключ appuser_web, команда terraform apply показала:
 ``` bash
     Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 ```
