@@ -4,14 +4,14 @@ provider "google" {
   region  = "${var.region}"
 }
 
-module "storage-bucket" {
-  source  = "SweetOps/storage-bucket/google"
-  version = "0.1.1"
+# module "storage-bucket" {
+#   source  = "SweetOps/storage-bucket/google"
+#   version = "0.1.1"
+#
+#   # Имена поменяйте на другие
+#   name = ["tf-serboox-devops-state"]
+# }
 
-  # Имена поменяйте на другие
-  name = ["tf-serboox-devops-state"]
-}
-
-output storage-bucket_url {
-  value = "${module.storage-bucket.url}"
-}
+# output storage-bucket_url {
+#   value = "${module.storage-bucket.url}"
+# }

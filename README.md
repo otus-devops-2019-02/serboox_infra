@@ -97,3 +97,21 @@ P.S. Terraform extension для Vscode итак все форматировал)
 8) Создал две папки с конфигурацией для двух вариантов окружений: prod и stage
 9) Попробовал создать backet при помощи модуля storage-bucket взятого из registry
 10) Перенес terraform stage в GCP backet, проверил его работоспособность из другой директории и работу лока.
+
+# HW10.Управление конфигурацией.
+1) Создал ветку ansible-1
+2) Создал файлы *inventory* и *ansible.cfg*
+3) Выполнил несколько команд используя модули *ping*, *command*, *shell*, *git*, *systemd*, *service*
+4) У меня не получалось сделать git clone, через -m command и  через playbook т.к. в provisioners у packer все скрипты выполнялись под sudo:
+``` json
+    {
+        "type": "shell",
+        "script": "scripts/deploy_reddit.sh",
+        "execute_command": "sudo {{.Path}}"
+    }
+```
+После,
+``` bash
+    ansible app -m command -a 'sudo rm -rf ~/reddit'
+```
+все заработало)
