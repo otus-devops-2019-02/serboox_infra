@@ -115,3 +115,57 @@ P.S. Terraform extension для Vscode итак все форматировал)
     ansible app -m command -a 'sudo rm -rf ~/reddit'
 ```
 все заработало)
+
+# HW11.Продолжение знакомства с Ansible: templates, handlers, dynamic inventory, vault, tags.
+> Лучше напишу с чем столкнулся)
+1) Когда делал
+``` bash
+    ansible-playbook reddit_app.yml --limit app --tags deploy-tag
+```
+ cтолкнулся с тем, что мой app image был запровиженен в том числе с ./packer/scripts/deploy_reddit.sh, поэтому необходимо было писать дополнительные таски, в первую очередь для удаления репозитерия, а во вторую для остановки работающего reddit application. К сожалению
+``` bash
+    sudo systemctl stop reddit
+```
+не останавливал приложение и 9292 порт продолжал быть занят. Поэтому пришлось придумывать дополнительный workaround
+``` yaml
+  tasks:
+    - name: Stopped and disabled reddit unit in systemcd
+        systemd:
+        name: reddit
+        state: stopped
+        enabled: no
+        register: service_reddit_status
+
+    - name: Kill reddit process
+        shell: "lsof -t -i:9292 | xargs kill -9"
+        when: service_reddit_status.changed == True
+```
+При первом прогоне когда status.changed был True, старое приложение убивалось, а во последующих нет, это в итоге позволило сохранить идемпотентность)
+2) При билде images с использованием packer получил вот это:
+```
+    ==> googlecompute: Timeout waiting for SSH.
+```
+Потом вспомнил, что мы через terraform убиваем доступ к 22 порту для default networks. Это исправило положение:
+``` bash
+    cd ./terraform/stage
+    terraform apply -target=module.vpc
+```
+3) Когда доступ к ssh был получен возникли новые сложности) Packer не желал билдить image сославшись на это:
+```
+    googlecompute:  [WARNING]: Updating cache and auto-installing missing dependency: python-apt
+    googlecompute: fatal: [default]: FAILED! => {"changed": false, "cmd": "apt-get update", "msg": "E: Could not get lock /var/lib/apt/lists/lock - open (11: Resource temporarily unavailable)\nE: Unable to lock directory /var/lib/apt/lists/", "rc": 100, "stderr": "E: Could not get lock /var/lib/apt/lists/lock - open (11: Resource temporarily unavailable)\nE: Unable to lock directory /var/lib/apt/lists/\n", "stderr_lines": ["E: Could not get lock /var/lib/apt/lists/lock - open (11: Resource temporarily unavailable)", "E: Unable to lock directory /var/lib/apt/lists/"], "stdout": "Reading package lists...\n", "stdout_lines": ["Reading package lists..."]}
+```
+Видимо provisioning каких-то внутренних компонентов гугла давал лок на apt, поэтому пришлост придумывать вот такой workaround:
+
+``` yaml
+    - name: Wait for automatic system updates
+      wait_for: path=/var/lib/apt/lists/lock state=absent
+```
+or
+``` yaml
+    - name: Clean dpkg lock file
+      file:
+        state: absent
+        path: /var/lib/apt/lists/lock
+```
+Но в итоге все отвисло и перестало выдавать ошибку)
