@@ -1,0 +1,4 @@
+db_host: 10.132.15.202
+default_port: 80
+default_server_name: reddit
+reddit_port: 9292

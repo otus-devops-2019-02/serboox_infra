@@ -4,7 +4,7 @@
             "type": "googlecompute",
             "project_id": "otus-devops-235515",
             "image_name": "reddit-app-{{timestamp}}",
-            "image_family": "ubuntu-1604-lts",
+            "image_family": "reddit-app",
             "source_image_family": "ubuntu-1604-lts",
             "zone": "europe-west1-b",
             "ssh_username": "appuser",
@@ -14,7 +14,7 @@
     "provisioners": [
         {
             "type": "ansible",
-            "playbook_file": "ansible/packer_app.yml"
+            "playbook_file": "ansible/playbooks/packer_app.yml"
         }
     ]
 }
