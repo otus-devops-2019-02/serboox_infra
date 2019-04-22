@@ -169,3 +169,12 @@ or
         path: /var/lib/apt/lists/lock
 ```
 Но в итоге все отвисло и перестало выдавать ошибку)
+
+# HW12.Продолжение знакомства с Ansible: templates, handlers, dynamic inventory, vault, tags.
+1) Создал роль app и db c помощью ansible-galaxy
+2) Протестировал работу ролей на stage и prod окружениях
+3) Организовал прейбуки, перенеся файлы в нужные директории
+4) Создал stage и prod environments
+5) Установил роль jdauphant.nginx из ansible-galaxy и протестиррвал ее работу на stage и prod окружениях
+6) Добавил playbook users.yml для создания пользованелей, указав креды в файле credentials.yml
+7) Создал ключ для ansible-vault, зашифровал содержимое credentials.yml и протестировал создание пользователей на stage окружении.
