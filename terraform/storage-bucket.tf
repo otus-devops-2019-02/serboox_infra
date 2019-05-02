@@ -12,6 +12,8 @@ provider "google" {
 #   name = ["tf-serboox-devops-state"]
 # }
 
+
 # output storage-bucket_url {
 #   value = "${module.storage-bucket.url}"
 # }
+

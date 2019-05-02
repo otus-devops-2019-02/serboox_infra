@@ -2,20 +2,5 @@
 - name: Configure App
   hosts: all
   become: true
-  tasks:
-    #- name: Wait for automatic system updates
-    #  wait_for: path=/var/lib/apt/lists/lock state=absent
-
-    #- name: Clean dpkg lock file
-    #  file:
-    #    state: absent
-    #    path: /var/lib/apt/lists/lock
-
-    - name: Install packages
-      apt:
-        name: "{{ packages }}"
-      vars:
-        packages:
-        - ruby-full
-        - ruby-bundler
-        - build-essential
+  roles:
+    - app
