@@ -2,32 +2,5 @@
 - name: Install MongoDB 3.2
   hosts: all
   become: true
-  tasks:
-    #- name: Wait for automatic system updates
-    #  wait_for: path=/var/lib/apt/lists/lock state=absent
-
-    #- name: Clean dpkg lock file
-    #  file:
-    #    state: absent
-    #    path: /var/lib/apt/lists/lock
-
-    - name: Add an apt key by id from a keyserver
-      apt_key:
-        id: EA312927
-        keyserver: keyserver.ubuntu.com
-
-    - name: Add MongoDB in APT repository
-      apt_repository:
-        repo: deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse
-        state: present
-
-    - name: Install MongoDB
-      apt:
-        name: mongodb-org
-        state: present
-        update_cache: yes
-
-    - name: Enable MongoDB
-      systemd:
-        name: mongod
-        enabled: yes
+  roles:
+    - db

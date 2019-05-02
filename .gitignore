@@ -1,3 +1,16 @@
+# IDEs
 .vscode
+
+# Packer
 packer/variables.json
+
+# Ansible
 jdauphant.nginx
+
+# Vagrant & molecule
+.vagrant/
+*.log
+*.pyc
+.molecule
+.cache
+.pytest_cache
